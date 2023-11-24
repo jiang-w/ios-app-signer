@@ -869,7 +869,13 @@ class MainView: NSView, URLSessionDataDelegate, URLSessionDelegate, URLSessionDo
                         if shouldSkipGetTaskAllow {
                             profile.removeGetTaskAllow()
                         }
-                        let isWildcard = profile.appID == "*" // TODO: support com.example.* wildcard
+                        
+                        let pattern = "^.+\\.\\*$"
+                        let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+                        let range = NSRange(location: 0, length: profile.appID.utf16.count)
+                        // TODO: support com.example.* wildcard
+                        let isWildcard = regex.firstMatch(in: profile.appID, options: [], range: range) != nil
+                        
                         if !isWildcard && (newApplicationID != "" && newApplicationID != profile.appID) {
                             setStatus("Unable to change App ID to \(newApplicationID), provisioning profile won't allow it")
                             cleanup(tempFolder); return
