@@ -870,7 +870,7 @@ class MainView: NSView, URLSessionDataDelegate, URLSessionDelegate, URLSessionDo
                             profile.removeGetTaskAllow()
                         }
                         
-                        let pattern = "^.+\\.\\*$"
+                        let pattern = "^\\*$|^.+\\.\\*$"
                         let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
                         let range = NSRange(location: 0, length: profile.appID.utf16.count)
                         // TODO: support com.example.* wildcard
